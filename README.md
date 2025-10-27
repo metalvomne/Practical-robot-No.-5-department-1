@@ -1,4 +1,3 @@
-# Створення словника працівників
 employees = {
     "Іванов": "м. Київ, вул. Хрещатик, 10",
     "Петров": "м. Львів, вул. Зелена, 25",
@@ -16,49 +15,64 @@ employees = {
 
 # 1. Вивести всі дані словника
 def show_all(data):
-    for name, address in data.items():
-        print(f"{name} — {address}")
+    if not data:
+        print("!!! Словник порожній!")
+    else:
+        print("\nСписок працівників фірми:")
+        for name, address in data.items():
+            print(f"{name} — {address}")
+    print()
 
-# 2. Додати нового працівника
+# 2. Додати нового працівника (з перевіркою дублювання)
 def add_employee(data):
-    name = input("Введіть прізвище працівника: ")
-    address = input("Введіть адресу працівника: ")
+    name = input("Введіть прізвище працівника: ").strip()
+    if name in data:
+        print(f"Помилка: працівник '{name}' вже існує у словнику!")
+        return
+    address = input("Введіть адресу працівника: ").strip()
     data[name] = address
-    print("✓ Працівника додано!")
+    print(f"✓ Працівника '{name}' успішно додано!\n")
 
 # 3. Видалити працівника
 def delete_employee(data):
-    name = input("Введіть прізвище працівника для видалення: ")
-    try:
+    name = input("Введіть прізвище працівника для видалення: ").strip()
+    if name in data:
         del data[name]
-        print("✓ Працівника видалено!")
-    except KeyError:
-        print("!!! Працівника з таким прізвищем не знайдено!")
+        print(f"✓ Працівника '{name}' видалено!\n")
+    else:
+        print(f"Працівника з прізвищем '{name}' не знайдено!\n")
 
 # 4. Переглянути словник за відсортованими ключами
 def show_sorted(data):
-    for name in sorted(data.keys()):
-        print(f"{name} — {data[name]}")
+    if not data:
+        print("!!! Словник порожній!")
+    else:
+        print("\nПрацівники за алфавітом:")
+        for name in sorted(data.keys()):
+            print(f"{name} — {data[name]}")
+    print()
 
 # 5. Знайти працівників за списком прізвищ
 def find_special_employees(data):
     special_names = {"Кузін", "Куравльов", "Кудін", "Кульков", "Кубиків"}
     found = False
+    print("\nРезультат пошуку:")
     for name in special_names:
         if name in data:
-            print(f"{name} працює у фірмі. Адреса: {data[name]}")
+            print(f"✓ {name} працює у фірмі. Адреса: {data[name]}")
             found = True
     if not found:
         print("Ніхто з указаних працівників не працює у фірмі.")
+    print()
 
 # --- ГОЛОВНЕ МЕНЮ ---
 while True:
-    print("\nМеню:")
+    print("Меню:")
     print("1 – Показати всіх працівників")
     print("2 – Додати працівника")
     print("3 – Видалити працівника")
     print("4 – Показати працівників за алфавітом")
-    print("5 – Перевірити прізвища Кузін, Куравльов, Кудін, Кульков, Кубиків")
+    print("5 – Перевірити прізвища (Кузін, Куравльов, Кудін, Кульков, Кубиків)")
     print("0 – Вихід")
 
     choice = input("Оберіть пункт меню: ")
@@ -74,7 +88,7 @@ while True:
     elif choice == "5":
         find_special_employees(employees)
     elif choice == "0":
-        print(" Завершення роботи програми.")
+        print("Завершення роботи програми.")
         break
     else:
-        print("!!! Невірний вибір! Спробуйте ще раз.")
+        print("Невірний вибір! Спробуйте ще раз.\n")
